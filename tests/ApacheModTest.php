@@ -32,7 +32,11 @@ class ApacheModTest extends PHPUnit_Framework_TestCase {
         $server->setHttpRequest($url);
         return $server;
     }
-
+    /*
+    system: Linux 3.2.0-23-generic #36-Ubuntu SMP Tue Apr 10 20:39:51 UTC 2012 x86_64
+    SAPI: apache2handler
+    PHP VERSION: 5.3.10-1ubuntu3.4
+    */
     function testUrl1() {
         $server = $this->getFakeServer('/index.php','http://testapp.local/');
         $this->assertEquals('testapp.local',                            $_SERVER['HTTP_HOST']);

@@ -19,7 +19,14 @@ $urls = array(
     array('/info/index.php','/info/index/foo/bar'),
     array('/info/index.php', '/info/index/foo/bar?baz=2')
  );
- 
+
+echo '/*
+system: '.php_uname().'
+SAPI: '.php_sapi_name().'
+PHP VERSION: '.phpversion().'
+*/
+';
+
 foreach ($urls as $k=>$url) {
     list($scriptName, $path) = $url;
     $ch = curl_init($domainName.$path);
