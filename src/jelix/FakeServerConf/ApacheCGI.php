@@ -44,11 +44,14 @@ class ApacheCGI extends FakeServerConf {
 
     public function setHttpRequest($url, $method='get', $body='') {
         parent::setHttpRequest($url, $method, $body);
-        if ($_SERVER['PATH_INFO']) {
+        if (isset($_SERVER['PATH_INFO'])) {
             $_SERVER['PATH_TRANSLATED'] = $_SERVER["DOCUMENT_ROOT"].ltrim($_SERVER['PATH_INFO'], '/');
         }
         $_SERVER['ORIG_PATH_INFO'] = $_SERVER['PHP_SELF'];
-        $_SERVER['ORIG_PATH_TRANSLATED'] = $_SERVER['SCRIPT_FILENAME'].$_SERVER['PATH_INFO'];
+        $_SERVER['ORIG_PATH_TRANSLATED'] = $_SERVER['SCRIPT_FILENAME'];
+        if (isset($_SERVER['PATH_INFO'])) {
+            $_SERVER['ORIG_PATH_TRANSLATED'] .= $_SERVER['PATH_INFO'];
+        }
         $_SERVER['ORIG_SCRIPT_FILENAME'] = $this->cgiBin;
         $_SERVER['ORIG_SCRIPT_NAME'] = $this->cgiAlias;
         $_SERVER['REDIRECT_URL'] =  $_SERVER['PHP_SELF'];

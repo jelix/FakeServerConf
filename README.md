@@ -29,3 +29,4 @@ You can also set the document root and other things...
 ## Supported servers
 
 - Apache + mod_php
+- Apache + php-cgi
