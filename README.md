@@ -41,15 +41,15 @@ You can also set the document root and other things...
 You don't find your server configuration in FakeServerConf? Help us to provide
 additionnal support.
 
-* first configure your server. It's better if it's a fresh installation in an virtual machine
-   you should install the curl extension for php.
-* configure a virtual host named testapp.local. It should accept multiviews queries (without .php)
-* the document root of the server should be /var/www/ and it should content files you can find in tests/www.
-   you can also set the document root to tests/www
-* in your browser, call http://testapp.local/generateserverdata.php. It generates some PHP code that
-   you have to add into a test class in tests/. See existing test class
-* create a new class in src/jelix/FakeServerConf, that inherits from FakeServerConf
-* in your test class, you should instantiate this class
-* run tests with phpunit, and fix in your new class the issues detected in your tests.
-* don't touch FakeServerConf except if it makes sens for all server configuration.
+* First configure your server. It's better if it's a fresh installation in a virtual machine.
+   You should install the curl extension for php.
+* Configure a virtual host named "testapp.local". It should accept multiviews queries (without .php)
+* The document root of the server should be /var/www/ and it should content files you can find in tests/www.
+   You can also set the document root to tests/www.
+* In your browser, call http://testapp.local/generateserverdata.php. It generates some PHP code that
+   you have to add into a test class in tests/. See existing test class.
+* Create a new class in src/jelix/FakeServerConf, that inherits from FakeServerConf
+* In your test class, you should instantiate this class
+* Run tests with phpunit, and fix in your new class the issues detected in your tests.
+* Don't touch the FakeServerConf class except if it makes sens for all server configuration.
 
