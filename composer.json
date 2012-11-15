@@ -1,5 +1,5 @@
 {
-    "name": "jelix/FakeServerConf",
+    "name": "jelix/fakeserverconf",
     "type": "library",
     "description": "Fill the $_SERVER array with various PHP server configuration for unit tests.",
     "keywords": ["$_SERVER, PHP configuration, unit tests"],
