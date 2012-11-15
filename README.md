@@ -6,8 +6,8 @@ variable does not contain the same thing as if the script is called in an Apache
 environment for example. Moreover the content of $_SERVER is not the same
 between a server configured with mod_php, and a server running PHP as a CGI, as FPM etc..
 
-FakeServerConf allow you to fill automatically $_SERVER with good values, only by given an
-URL and the type of a PHP server.
+FakeServerConf allow you to fill automatically $_SERVER with good values (and
+$_GET, $_POST...), only by given an URL to "virtual" PHP server.
 
 You don't need anymore to setup several real PHP HTTP server to test your libraries in
 different environment. Just call FakeServerConf in your unit tests.

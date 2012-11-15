@@ -44,14 +44,16 @@ abstract class FakeServerConf {
     }
 
     /**
-     *
+     * @param string $url
+     * @param string $method  the http method (get, post...)
+     * @param string|array $body  the content of the request for http method that need it
+     *                            it can be an array 
      */
-    public function setHttpRequest($url, $method='get', $body='') {
+    public function setHttpRequest($url, $method='get', $body='', $bodyContentType='application/x-www-form-urlencoded') {
         $this->setDefaultServer();
 
         $_SERVER["REQUEST_METHOD"] = strtoupper($method);
 
-// TODO : generate _GET, _POST, _REQUEST...
         $u = parse_url($url);
 
         if ($u['scheme'] == 'https')
@@ -68,13 +70,17 @@ abstract class FakeServerConf {
         $_SERVER["REQUEST_URI"] = $path = '';
         if (isset($u['path']))
             $_SERVER["REQUEST_URI"] = $path = $u['path'];
-            
+
+        $_GET = $_POST = array();
         if(isset($u['query'])) {
             $_SERVER["REQUEST_URI"] .= '?'.$u['query'];
             $_SERVER["QUERY_STRING"] = $u['query'];
+            parse_str($u['query'], $_GET);
         }
-        else
+        else {
             $_SERVER["QUERY_STRING"] = '';
+        }
+        $_REQUEST = $_GET;
 
         // we got the scriptName in the url
         if (strpos($path, $this->scriptName) === 0) {
@@ -108,6 +114,25 @@ abstract class FakeServerConf {
             $_SERVER['PHP_SELF'] .= $_SERVER['PATH_INFO'];
 
         $_SERVER['SCRIPT_FILENAME'] = $_SERVER["DOCUMENT_ROOT"].ltrim($_SERVER['SCRIPT_NAME'], '/');
+
+        $_SERVER['REQUEST_METHOD'] = strtoupper($method);
+
+        if ($body != '') {
+            $_SERVER['CONTENT_TYPE'] = $bodyContentType;
+            if ($bodyContentType == 'application/x-www-form-urlencoded' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+                if (is_array($body)) {
+                    $_POST = $body;
+                    $_REQUEST = array_merge($_REQUEST, $_POST);
+                }
+                else {
+                    parse_str($body, $_POST);
+                }
+            }
+            else {
+                global  $HTTP_RAW_POST_DATA;
+                $HTTP_RAW_POST_DATA = $body;
+            }
+        }
     }
 
     protected function setDefaultServer() {
@@ -134,5 +159,6 @@ abstract class FakeServerConf {
         unset($_SERVER['PHPRC']);
         unset($_SERVER['REDIRECT_URL']);
         unset($_SERVER['PATH_INFO']);
+        unset($_SERVER['CONTENT_TYPE']);
     }
 }
