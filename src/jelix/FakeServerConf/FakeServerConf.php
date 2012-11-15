@@ -10,8 +10,9 @@
 
 namespace jelix\FakeServerConf;
 
-
-
+/**
+ * base class for servers
+ */
 abstract class FakeServerConf {
 
     /**

@@ -17,7 +17,11 @@ the URL "http://testapp.local/info.php/foo/bar?baz=2" was requested. In your
 PHPUnit/Atoum/Simpletest/whatever class, call this:
 
 ```php
+    // let's says we are running an Apache server configured with mod_php.
+    // Indicate to this server the script name (it can be hidden in the http request)
     $server = new \jelix\FakeServerConf\ApacheMod(null, '/info.php');
+    
+    // now simulate an HTTP request
     $server->setHttpRequest('http://testapp.local/info.php/foo/bar?baz=2');
 ```
 
@@ -30,3 +34,22 @@ You can also set the document root and other things...
 
 - Apache + mod_php
 - Apache + php-cgi
+- Apache + mod_fastcgi + php-fpm
+
+## Adding servers
+
+You don't find your server configuration in FakeServerConf? Help us to provide
+additionnal support.
+
+* first configure your server. It's better if it's a fresh installation in an virtual machine
+   you should install the curl extension for php.
+* configure a virtual host named testapp.local. It should accept multiviews queries (without .php)
+* the document root of the server should be /var/www/ and it should content files you can find in tests/www.
+   you can also set the document root to tests/www
+* in your browser, call http://testapp.local/generateserverdata.php. It generates some PHP code that
+   you have to add into a test class in tests/. See existing test class
+* create a new class in src/jelix/FakeServerConf, that inherits from FakeServerConf
+* in your test class, you should instantiate this class
+* run tests with phpunit, and fix in your new class the issues detected in your tests.
+* don't touch FakeServerConf except if it makes sens for all server configuration.
+

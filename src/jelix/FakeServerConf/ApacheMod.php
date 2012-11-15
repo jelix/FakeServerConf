@@ -10,6 +10,9 @@
 
 namespace jelix\FakeServerConf;
 
+/**
+ * simulate a server configured with apache + mod_php
+ */
 class ApacheMod extends FakeServerConf {
 
     public function setHttpRequest($url, $method='get', $body='') {

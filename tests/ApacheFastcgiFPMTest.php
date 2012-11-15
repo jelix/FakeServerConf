@@ -22,18 +22,20 @@ require_once(__DIR__.'/../src/jelix/FakeServerConf/ApacheCGI.php');
  url15: https://testapp.local:8080/index.php/foo/bar
 */
 
-class ApacheCGITest extends PHPUnit_Framework_TestCase {
+class ApacheFastcgiFPMTest extends PHPUnit_Framework_TestCase {
 
     protected function getFakeServer($scriptName, $url) {
-        $server = new \jelix\FakeServerConf\ApacheCGI(null, $scriptName);
+        $server = new \jelix\FakeServerConf\ApacheCGI(null, $scriptName, '/usr/lib/cgi-bin/php5-fcgi');
         $server->setHttpRequest($url);
         return $server;
     }
-
 /*
 system: Linux 3.2.0-23-generic #36-Ubuntu SMP Tue Apr 10 20:39:51 UTC 2012 x86_64
-SAPI: cgi-fcgi
+SAPI: fpm-fcgi
 PHP VERSION: 5.3.10-1ubuntu3.4
+
+Tests here are equals to ApacheCGITest, except the value of ORIG_SCRIPT_FILENAME which is not equal.
+In the apache configuration, the cgi-bin was not defined with the same value.
 */
 
     function testUrl1() {
@@ -54,9 +56,10 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/index.php',                               $_SERVER['PHP_SELF']);
         $this->assertEquals('/index.php',                               $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/index.php',                       $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/index.php',                               $_SERVER['REDIRECT_URL']);
+
     }
     
     function testUrl2() {
@@ -77,7 +80,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/index.php',                               $_SERVER['PHP_SELF']);
         $this->assertEquals('/index.php',                               $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/index.php',                       $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/index.php',                               $_SERVER['REDIRECT_URL']);
 
@@ -101,7 +104,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['PHP_SELF']);
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/index.php/foo/bar',               $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['REDIRECT_URL']);
 
@@ -125,7 +128,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['PHP_SELF']);
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/index.php/foo/bar',               $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['REDIRECT_URL']);
 
@@ -149,7 +152,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/index.php',                               $_SERVER['PHP_SELF']);
         $this->assertEquals('/index.php',                               $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/index.php',                       $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/index.php',                               $_SERVER['REDIRECT_URL']);
 
@@ -173,7 +176,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['PHP_SELF']);
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/index.php/foo/bar',               $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['REDIRECT_URL']);
 
@@ -197,7 +200,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['PHP_SELF']);
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/index.php/foo/bar',               $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/index.php/foo/bar',                       $_SERVER['REDIRECT_URL']);
 
@@ -221,7 +224,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/info/index.php',                          $_SERVER['PHP_SELF']);
         $this->assertEquals('/info/index.php',                          $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/info/index.php',                  $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/info/index.php',                          $_SERVER['REDIRECT_URL']);
 
@@ -245,7 +248,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/info/index.php',                          $_SERVER['PHP_SELF']);
         $this->assertEquals('/info/index.php',                          $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/info/index.php',                  $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/info/index.php',                          $_SERVER['REDIRECT_URL']);
 
@@ -269,7 +272,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['PHP_SELF']);
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/info/index.php/foo/bar',          $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['REDIRECT_URL']);
 
@@ -293,7 +296,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['PHP_SELF']);
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/info/index.php/foo/bar',          $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['REDIRECT_URL']);
 
@@ -317,7 +320,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/info/index.php',                          $_SERVER['PHP_SELF']);
         $this->assertEquals('/info/index.php',                          $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/info/index.php',                  $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/info/index.php',                          $_SERVER['REDIRECT_URL']);
 
@@ -341,7 +344,7 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['PHP_SELF']);
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/info/index.php/foo/bar',          $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['REDIRECT_URL']);
 
@@ -365,11 +368,9 @@ PHP VERSION: 5.3.10-1ubuntu3.4
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['PHP_SELF']);
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['ORIG_PATH_INFO']);
         $this->assertEquals('/var/www/info/index.php/foo/bar',          $_SERVER['ORIG_PATH_TRANSLATED']);
-        $this->assertEquals('/usr/lib/cgi-bin/php5',                    $_SERVER['ORIG_SCRIPT_FILENAME']);
+        $this->assertEquals('/usr/lib/cgi-bin/php5-fcgi',               $_SERVER['ORIG_SCRIPT_FILENAME']);
         $this->assertFalse(                                       isset($_SERVER['PHPRC']));
         $this->assertEquals('/info/index.php/foo/bar',                  $_SERVER['REDIRECT_URL']);
 
     }
-    
-
 }

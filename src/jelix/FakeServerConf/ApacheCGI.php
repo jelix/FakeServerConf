@@ -8,12 +8,15 @@
 
 namespace jelix\FakeServerConf;
 
+/**
+ * Simulate an Apache with CGI module or fastcgi module + PHP-FPM
+ */
 class ApacheCGI extends FakeServerConf {
 
     /**
      * value of cgi.fix_pathinfo in php.ini
      */
-    public $fixPathInfo = true;
+    //public $fixPathInfo = true;
 
     /**
      *
