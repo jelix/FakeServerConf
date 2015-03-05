@@ -1,7 +1,4 @@
 <?php
-require_once(__DIR__.'/../src/jelix/FakeServerConf/FakeServerConf.php');
-require_once(__DIR__.'/../src/jelix/FakeServerConf/ApacheCGI.php');
-
 
 /*
  urls to test :
@@ -25,7 +22,7 @@ require_once(__DIR__.'/../src/jelix/FakeServerConf/ApacheCGI.php');
 class ApacheCGITest extends PHPUnit_Framework_TestCase {
 
     protected function getFakeServer($scriptName, $url, $method='get', $body='') {
-        $server = new \jelix\FakeServerConf\ApacheCGI(null, $scriptName);
+        $server = new \Jelix\FakeServerConf\ApacheCGI(null, $scriptName);
         $server->setHttpRequest($url, $method, $body);
         return $server;
     }

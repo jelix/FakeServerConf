@@ -1,12 +1,12 @@
 <?php
 /**
 * @author       Laurent Jouanneau
-* @copyright    2012 Laurent Jouanneau
+* @copyright    2012-2015 Laurent Jouanneau
 * @link         http://jelix.org
 * @licence      MIT
 */
 
-namespace jelix\FakeServerConf;
+namespace Jelix\FakeServerConf;
 
 /**
  * Simulate an Apache with CGI module or fastcgi module + PHP-FPM

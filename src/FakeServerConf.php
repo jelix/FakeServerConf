@@ -1,14 +1,12 @@
 <?php
 /**
-* @package      jelix
-* @subpackage   tests
 * @author       Laurent Jouanneau
-* @copyright    2012 Laurent Jouanneau
+* @copyright    2012-2015 Laurent Jouanneau
 * @link         http://jelix.org
 * @licence      MIT
 */
 
-namespace jelix\FakeServerConf;
+namespace Jelix\FakeServerConf;
 
 /**
  * base class for servers

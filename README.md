@@ -19,7 +19,7 @@ PHPUnit/Atoum/Simpletest/whatever class, call this:
 ```php
     // let's says we are running an Apache server configured with mod_php.
     // Indicate to this server the script name (it can be hidden in the http request)
-    $server = new \jelix\FakeServerConf\ApacheMod(null, '/info.php');
+    $server = new \Jelix\FakeServerConf\ApacheMod(null, '/info.php');
     
     // now simulate an HTTP request
     $server->setHttpRequest('http://testapp.local/info.php/foo/bar?baz=2');
@@ -53,3 +53,23 @@ additionnal support.
 * Run tests with phpunit, and fix in your new class the issues detected in your tests.
 * Don't touch the FakeServerConf class except if it makes sens for all server configuration.
 
+## installing
+
+You can use Composer. Into your composer.json file, add
+
+```
+"require": {
+    "jelix/fakeserverconf": "1.0.0"
+}
+```
+
+## running test
+
+Install phpunit (run composer install) and launch it into the tests/ directory
+
+```
+cd tests
+../vendor/bin/phpunit
+# or if you installed phpunit globally:
+phpunit
+```

@@ -1,6 +1,4 @@
 <?php
-require_once(__DIR__.'/../src/jelix/FakeServerConf/FakeServerConf.php');
-require_once(__DIR__.'/../src/jelix/FakeServerConf/ApacheMod.php');
 
 /**
  * See www/README to modify this file
@@ -28,7 +26,7 @@ require_once(__DIR__.'/../src/jelix/FakeServerConf/ApacheMod.php');
 class ApacheModTest extends PHPUnit_Framework_TestCase {
 
     protected function getFakeServer($scriptName, $url, $method='get', $body='') {
-        $server = new \jelix\FakeServerConf\ApacheMod(null, $scriptName);
+        $server = new \Jelix\FakeServerConf\ApacheMod(null, $scriptName);
         $server->setHttpRequest($url, $method, $body);
         return $server;
     }
